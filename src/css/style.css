@@ -1,0 +1,84 @@
+body {
+    background-color: #000316;
+    background-image: url("../img/audio-analyser-background.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+header {
+    background-color: #000316;
+}
+
+nav {
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    text-decoration-color: white;
+}
+
+canvas {
+    width: 100%;
+    height: 400px;
+    /* margin: 2rem auto; */
+}
+
+code {
+    display: none;
+}
+
+table {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+#nav-logo {
+    width: 180px;
+    height: 180px;
+}
+
+.show-only-xs {
+    display: none;
+}
+
+@media only screen and (max-width: 574px) {
+    body {
+        background-image: none;
+        background-color: #E6E9EB;
+    }
+
+    header {
+        font-size: 1.5em;
+    }
+
+
+    .hide-sm {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    header {
+        font-size: 1.75em;
+    }
+
+    .hide-xs {
+        display: none;
+    }
+
+    .show-only-xs {
+        display: inline-block;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .hide-xxs {
+        display: none;
+    }
+
+}

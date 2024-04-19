@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="version" content="1.0.0">
+    <title>Audio AnalyzR</title>
+    <meta name="author" content="Toby Butchart">
+    <meta name="description" content="View WAV file metadata in a browser">
+    <meta name="subject" content="Audio AnalyzR">
+    <meta name="application-name" content="Audio AnalyzR">
+    <meta property="og:url" content="">
+    <meta property="og:locale" content="en">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Audio AnalyzR">
+    <meta property="og:image" content="img/apple-icon-152x152.png">
+    <meta property="og:image:alt" content="Audio AnalyzR">
+    <meta property="og:description" content="View WAV file metadata in a browser">
+    <meta property="og:site_name" content="Audio AnalyzR">
+    <meta property="article:author" content="Toby Butchart">
+    <meta name="twitter:url" content="">
+    <meta name="twitter:title" content="Audio AnalyzR">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description" content="View WAV file metadata in a browser">
+    <meta name="twitter:image" content="img/ms-icon-310x310.png">
+    <meta name="twitter:image:alt" content="Audio AnalyzR">
+    <link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="img/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="img/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="img/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="manifest" href="img/manifest.json">
+    <meta name="msapplication-TileColor" content="#000316">
+    <meta name="msapplication-TileImage" content="img/ms-icon-144x144.png">
+    <meta name="theme-color" content="#000316">
+    <link rel="stylesheet" href="css/pico/pico.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+
+    </style>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li class="hide-xs"><a href="https://tobybutchart.github.io/AudioAnalyzR/src/"><img id="nav-logo" src="img/audio-analyser.png" alt="Audio AnalyzR"></a></li>
+            </ul>
+            <ul>
+                <li class="show-only-xs"><a href="https://tobybutchart.github.io/AudioAnalyzR/src/">Audio AnalyzR</a></li>
+            </ul>
+            <ul>
+                <li class="hide-xs"><a href="#" onclick="showAbout(); return false;">About</a></li>
+                <li class="hide-sm"><a href="https://tobybutchart.github.io/" target=”_blank”>tobybutchart.github.io</a></li>
+                <li class="hide-xxs"><a href="https://github.com/tobybutchart/AudioAnalyzR" target=”_blank”>Source</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section id="sec-wav-file">
+            <input type="file" id="wav-file" name="wav-file" onchange="showFile(this)">
+        </section>
+        <details open>
+            <summary>File Details</summary>
+            <ul>
+                <li><b>Name:</b>&nbsp;<span data-field="name">-</span></li>
+                <li><b>Last Modified:</b>&nbsp;<span data-field="lastModifiedDate">-</span></li>
+                <li><b>Size:</b>&nbsp;<span data-field="size">-</span></li>
+                <li><b>Type:</b>&nbsp;<span data-field="type">-</span></li>
+                <li><b>Milliseconds:</b>&nbsp;<span data-field="milliseconds">-</span></li>
+            </ul>
+        </details>
+        <hr />
+        <details open>
+            <summary>Errors</summary>
+            <article id="art-errors">-</article>
+        </details>
+        <hr />
+        <details open>
+            <summary>File Data</summary>
+            <div class="grid">
+                <div>
+                    <table class="striped">
+                        <thead>
+                            <tr><th colspan="2">Header</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Chunk ID</td><td data-field="chunkID">-</td></tr>
+                            <tr><td>Chunk Size</td><td data-field="chunkSize">-</td></tr>
+                            <tr><td>Format</td><td data-field="format">-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table class="striped">
+                        <thead>
+                            <tr><th colspan="2">Format</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Subchunk 1 ID</td><td data-field="subchunk1ID">-</td></tr>
+                            <tr><td>Subchunk 1 Size</td><td data-field="subchunk1Size">-</td></tr>
+                            <tr><td>Audio Format</td><td data-field="audioFormat">-</td></tr>
+                            <tr><td>Number of Channels</td><td data-field="numberOfChannels">-</td></tr>
+                            <tr><td>Sample Rate</td><td data-field="sampleRate">-</td></tr>
+                            <tr><td>Byte Rate</td><td data-field="byteRate">-</td></tr>
+                            <tr><td>Block Align</td><td data-field="blockAlign">-</td></tr>
+                            <tr><td>Bits Per Sample</td><td data-field="bitsPerSample">-</td></tr>
+                            <tr><td>Extra Param Size</td><td data-field="extraParamSize">-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table class="striped">
+                        <thead>
+                            <tr><th colspan="2">Data</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Subchunk 2 ID</td><td data-field="subchunk2ID">-</td></tr>
+                            <tr><td>Subchunk 2 Size</td><td data-field="subchunk2Size">-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </details>
+        <hr />
+        <details>
+            <summary>Hex</summary>
+            <article>
+                <button class="secondary" onclick="openHex()">Open in New Window</button>
+                <button class="secondary" onclick="downloadHex()">Download</button>
+                <code id="code-hex"></code>
+            </article>
+        </details>
+    </main>
+
+    <footer class="container">
+        <details open>
+            <summary>Wave Form</summary>
+            <canvas id="chart-wav" class="secondary"></canvas>
+        </details>
+    </footer>
+
+    <dialog id="about-modal">
+        <article>
+            <h2>Audio AnalyzR</h2>
+            <p>View WAV file metadata in a browser</p>
+            <hr>
+            <p>Version&nbsp;<span id="about-version"></span></p>
+            <p>&copy;&nbsp;<span id="about-year"></span></p>
+            <footer>
+                <button class="secondary" onclick="PicoHelper.hideModal('about-modal')">Close</button>
+            </footer>
+        </article>
+    </dialog>
+</body>
+<script type="text/javascript" src="js/meta.js"></script>
+<script type="text/javascript" src="js/chart.js"></script>
+<script type="text/javascript" src="js/wav.js"></script>
+<script type="text/javascript" src="js/buffer-helper.js"></script>
+<script type="text/javascript" src="js/pico-helper.js"></script>
+<script type="text/javascript" src="js/hex-view.js"></script>
+<script>
+    let chart = null;
+
+    function showAbout() {
+        document.getElementById('about-version').innerHTML = Meta.getMeta('version');
+        document.getElementById('about-year').innerHTML = new Date().getFullYear();
+        PicoHelper.showModal('about-modal');
+    }
+
+    function showFile(input) {
+        if (input.files.length > 0) {
+            PicoHelper.busy('wav-file', true);
+            resetDataComponents();
+
+            const wav = new WAV(input.files[0], onAfterReadWav);
+
+            try {
+                wav.read();
+            } catch(error) {
+                showError(error);
+            }
+        }
+    }
+
+    function showError(error) {
+        PicoHelper.invalid('wav-file', true);
+        const elem = document.getElementById("art-errors");
+        if (elem) {
+            elem.innerHTML = error.name + "<br>" + error.message;
+        }
+    }
+
+    function resetDataComponents() {
+        const elems = document.querySelectorAll('*');
+
+        for (let i = 0; i < elems.length; i++) {
+            if (elems[i].dataset.field) {
+                if (elems[i].tagName.toLowerCase() == "span" || elems[i].tagName.toLowerCase() == "td") {
+                    elems[i].innerHTML = "-";
+                }
+            }
+        }
+    }
+
+    function setDataComponents(data) {
+        const elems = document.querySelectorAll('*');
+        const keys = Object.keys(data);
+
+        for (let i = 0; i < elems.length; i++) {
+            if (elems[i].dataset.field) {
+                if (elems[i].tagName.toLowerCase() == "span" || elems[i].tagName.toLowerCase() == "td") {
+                    for (let j = 0; j < keys.length; j++) {
+                        if (elems[i].dataset.field == keys[j]) {
+                            elems[i].innerHTML = data[keys[j]];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function onAfterReadWav(wav) {
+        PicoHelper.invalid('wav-file', false);
+        setDataComponents(wav);
+
+        const elem = document.getElementById("code-hex");
+        if (elem) {
+            const hexViewString = hexView(wav.buffer, {
+                positionInHex: false,
+                print: false,
+                width: 0,
+                skipEmptyLines: false,
+                asHTML: true
+            });
+            elem.innerHTML = hexViewString;
+        }
+
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioContext = new AudioContext();
+        audioContext.decodeAudioData(wav.buffer, drawWav);
+
+        PicoHelper.busy('wav-file', false);
+    }
+
+    function drawWav(audioBuffer) {
+        const rawData = audioBuffer.getChannelData(0);
+        const ctx = document.getElementById('chart-wav').getContext("2d");
+
+        if (chart) {
+            chart.destroy();
+        }
+
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: rawData,
+                datasets: [{
+                    label: '',
+                    data: rawData,
+                    borderWidth: 1,
+                    spanGaps: true,
+                    borderColor: '#48536B',
+                }]
+            },
+            options: {
+                spanGaps: true,
+                scales: {
+                    x: {
+                        display: false
+                    },
+                    y: {
+                        beginAtZero: false
+                    }
+                },
+                datasets: {
+                    line: {
+                        pointRadius: 0
+                    }
+                },
+                elements: {
+                    point:{
+                        radius: 0
+                    }
+                },
+                animation: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: false
+                    }
+                },
+                events: []
+            }
+        });
+    }
+
+    function openHex() {
+        const elem = document.getElementById("code-hex");
+        if (elem) {
+            const x = window.open();
+            x.document.open();
+            x.document.write("<code>" + elem.innerHTML + "</code>");
+            x.document.close();
+        }
+    }
+
+    function downloadHex() {
+        const elem = document.getElementById("code-hex");
+        if (elem) {
+            const filename = `wav_data_${(new Date().toJSON().slice(0, 10))}.txt`;
+            const anchor = document.createElement('a');
+            const contents = elem.innerHTML.replaceAll("<br>", "\n");
+
+            anchor.setAttribute('href', 'data:text/plain;charset=utf-8,' + contents);
+            anchor.setAttribute('download', filename);
+            anchor.style.display = 'none';
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+        }
+    }
+</script>
+</html>
